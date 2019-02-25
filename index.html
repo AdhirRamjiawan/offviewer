@@ -10,6 +10,17 @@
         <input type="file" id="fileModel" /><br/>
         <button id="btnView" onclick="viewModel()">View Model</button>
 
+        <div id="controls">
+            <label for="cbRotateXAxis">Rotate X-Axis</label><input type="checkbox" id="cbRotateXAxis" /><br/>
+            <label for="cbRotateYAxis">Rotate Y-Axis</label><input type="checkbox" id="cbRotateYAxis" /><br/>
+            <label for="cbRotateZAxis">Rotate Z-Axis</label><input type="checkbox" id="cbRotateZAxis" /><br/>
+            
+            <label for="rangeSpeed">Rotation Speed</label>
+            <input type="range" min="1" max="100" value="50" class="slider" id="rangeSpeed" oninput="startAnimation(this.value)">
+        </div>
+
+        
+
         <canvas id="view" height="500" width="500">
 
         </canvas>

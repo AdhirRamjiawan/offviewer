@@ -1,4 +1,6 @@
 
+var model =null;
+var currentInterval = null;
 
 function put2DPixel(ctx, x, y) {
     ctx.fillRect(x, y, 2, 2);
@@ -89,6 +91,8 @@ function readModelFile(callback) {
 
         reader.readAsText(selectedFile);
 
+        // THIS LOGIC DOES NOT HANDLE COMMENTS IN .OFF FILES.
+        // NEED TO REFACTOR THIS TO HANDLE COMMENTS
         reader.onload = function(e) {
             var text = reader.result;
             var _vertices = [];
@@ -150,40 +154,68 @@ function readModelFile(callback) {
     }
 }
 
-function viewModel() {
-    
+function startAnimation(rotateSpeed) {
     var angle = 0;
+
+    //console.log(rotateSpeed);
     
     var canvas = document.getElementById('view');
     var ctx = canvas.getContext('2d');
 
-    readModelFile(function (model) {
-        //console.log(model);
-        setInterval(function(){
-            angle++;
+    var mustRotateXAxis = false;
+    var mustRotateYAxis = false;
+    var mustRotateZAxis = false;
 
-            
+    if (!rotateSpeed)
+        rotateSpeed = 0;
 
-            var radian = angle * (Math.PI / 180);
-            var vert = null;
+    if (currentInterval)
+        clearInterval(currentInterval);
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+    currentInterval = setInterval(function(){
 
-            for (var i = 0; i < model.vertices.length; i++) {
-                vert = model.vertices[i];
+        mustRotateXAxis = document.getElementById('cbRotateXAxis').checked;
+        mustRotateYAxis = document.getElementById('cbRotateYAxis').checked;
+        mustRotateZAxis = document.getElementById('cbRotateZAxis').checked;
 
+        //rotateSpeed = document.getElementById('rangeSpeed').value;
+
+        angle++;
+
+        var radian = angle * (Math.PI / 180);
+        var vert = null;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (var i = 0; i < model.vertices.length; i++) {
+            vert = model.vertices[i];
+
+            if (mustRotateXAxis)
                 vert = rotateXAxis(radian, vert.x, vert.y, vert.z);
-                vert = rotateYAxis(radian, vert.x, vert.y, vert.z);
-               // vert = rotateZAxis(radian, vert.x, vert.y, vert.z);
 
-                drawVertex(ctx,
-                    vert.x,
-                    vert.y,
-                    vert.z,
-                    100,
-                    100);
-            }
-        }, 1);
+            if (mustRotateYAxis)
+                vert = rotateYAxis(radian, vert.x, vert.y, vert.z);
+
+            if (mustRotateZAxis)
+                vert = rotateZAxis(radian, vert.x, vert.y, vert.z);
+
+            drawVertex(ctx,
+                vert.x,
+                vert.y,
+                vert.z,
+                100,
+                100);
+        }
+    }, 100 - rotateSpeed);
+}
+
+function viewModel() {
+    
+    readModelFile(function (_model) {
+        //console.log(model);
+       
+        model = _model;
+        startAnimation(0);
         
     });
 
