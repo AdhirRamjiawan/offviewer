@@ -1,0 +1,28 @@
+{
+  "name": "offviewer",
+  "version": "1.0.0",
+  "description": "A simple viewer for .off models",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdhirRamjiawan/offviewer.git"
+  },
+  "keywords": [
+    ".off",
+    "3d-programming"
+  ],
+  "author": "Adhir Ramjiawan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdhirRamjiawan/offviewer/issues"
+  },
+  "homepage": "https://github.com/AdhirRamjiawan/offviewer#readme",
+  "devDependencies": {
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+  }
+}

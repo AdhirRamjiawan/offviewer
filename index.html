@@ -5,9 +5,9 @@
         
     </head>
     <body>
-        <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript" src="dist/app.js"></script>
 
-        <input type="file" id="fileModel" /><br/>
+        <input type="file" id="fileModel" onchange="setModelFile(event)" /><br/>
         <button id="btnView" onclick="viewModel()">View Model</button>
 
         <div id="controls">

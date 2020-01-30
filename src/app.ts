@@ -1,12 +1,20 @@
 
-var model =null;
-var currentInterval = null;
+let model:any;
+let currentInterval :any;
+let selectedFile:  File;
 
+class Face {
+    public constructor (public numberOfVertices :number, public vertices:Array<number>){}
+}
+
+function setModelFile(event:any) {
+    selectedFile = event.target.files[0];
+}
 function put2DPixel(ctx, x, y) {
     ctx.fillRect(x, y, 2, 2);
 }
 
-function drawVertex(ctx, x,y,z,scale,offset) {
+function drawVertex(ctx, x: number,y: number,z: number,scale: number,offset: number) {
 
     /*x *= scale;
     y *= scale;
@@ -21,7 +29,7 @@ function drawVertex(ctx, x,y,z,scale,offset) {
 }
 
 
-function project3DVert(x,z, scalex, scalez, offsetx, offsetz) {
+function project3DVert(x:number, z:number, scalex:number, scalez:number, offsetx:number, offsetz:number) {
     
     return {
         x: (scalex * x) +  offsetx,
@@ -81,12 +89,10 @@ function flattenYCoord(x,y,z, radian) {
 }
 
 function readModelFile(callback) {
-    const selectedFile = document.getElementById('fileModel').files[0];
+    //const selectedFile = document.getElementById('fileModel').files[0];
 
-    
-      
     if (window.File && window.FileReader && window.FileList && window.Blob) {
-        
+
         var reader = new FileReader();
 
         reader.readAsText(selectedFile);
@@ -94,7 +100,7 @@ function readModelFile(callback) {
         // THIS LOGIC DOES NOT HANDLE COMMENTS IN .OFF FILES.
         // NEED TO REFACTOR THIS TO HANDLE COMMENTS
         reader.onload = function(e) {
-            var text = reader.result;
+            var text = <String>reader.result;
             var _vertices = [];
             var _faces = [];
             var _verticeCount, _faceCount, _edgeCount;
@@ -113,7 +119,7 @@ function readModelFile(callback) {
             var verticeEndIndex =  _verticeCount + headerCount;
             console.log(verticeEndIndex);
 
-            for (var i=headerCount; i < verticeEndIndex;i++) {
+            for (let i:number=headerCount; i < verticeEndIndex;i++) {
               //  console.log('vertices : ' + i);
                 var vertice = rows[i].split(' ');
 
@@ -126,13 +132,13 @@ function readModelFile(callback) {
 
             for (var i=_verticeCount + headerCount; i < rows.length;i++) {
                 var face = rows[i].split(' ');
-                var _faceObj = {};
+                var _faceObj:Face = new Face(0, []);
 
-                _faceObj.numberOfVertices = face[0];
+                _faceObj.numberOfVertices = parseInt(face[0]);
                 _faceObj.vertices = [];
 
                 for (var j = 0; j < _faceObj.numberOfVertices; j++) {
-                    _faceObj.vertices.push(face[j]);
+                    _faceObj.vertices.push(parseInt(face[j]));
                 }
 
                 _faces.push(_faceObj);
@@ -154,13 +160,13 @@ function readModelFile(callback) {
     }
 }
 
-function startAnimation(rotateSpeed) {
+function startAnimation(rotateSpeed :number) {
     var angle = 0;
 
     //console.log(rotateSpeed);
     
-    var canvas = document.getElementById('view');
-    var ctx = canvas.getContext('2d');
+    var canvas = <HTMLCanvasElement> document.getElementById('view');
+    var ctx  =  <CanvasRenderingContext2D> canvas.getContext('2d');
 
     var mustRotateXAxis = false;
     var mustRotateYAxis = false;
@@ -174,9 +180,9 @@ function startAnimation(rotateSpeed) {
 
     currentInterval = setInterval(function(){
 
-        mustRotateXAxis = document.getElementById('cbRotateXAxis').checked;
-        mustRotateYAxis = document.getElementById('cbRotateYAxis').checked;
-        mustRotateZAxis = document.getElementById('cbRotateZAxis').checked;
+        mustRotateXAxis = (<HTMLInputElement>document.getElementById('cbRotateXAxis')).checked;
+        mustRotateYAxis = (<HTMLInputElement>document.getElementById('cbRotateYAxis')).checked;
+        mustRotateZAxis = (<HTMLInputElement>document.getElementById('cbRotateZAxis')).checked;
 
         //rotateSpeed = document.getElementById('rangeSpeed').value;
 
