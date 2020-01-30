@@ -23,6 +23,6 @@
   "devDependencies": {
     "source-map-loader": "^0.2.4",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.7.5",
+    "typescript": "^3.7.5"
   }
 }
