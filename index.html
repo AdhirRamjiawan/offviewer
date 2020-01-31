@@ -5,7 +5,9 @@
         
     </head>
     <body>
+        <script type="text/javascript" src="node_modules/systemjs/dist/s.min.js"></script>
         <script type="text/javascript" src="dist/app.js"></script>
+        
 
         <input type="file" id="fileModel" onchange="setModelFile(event)" /><br/>
         <button id="btnView" onclick="viewModel()">View Model</button>
@@ -16,7 +18,7 @@
             <label for="cbRotateZAxis">Rotate Z-Axis</label><input type="checkbox" id="cbRotateZAxis" /><br/>
             
             <label for="rangeSpeed">Rotation Speed</label>
-            <input type="range" min="1" max="100" value="50" class="slider" id="rangeSpeed" oninput="startAnimation(this.value)">
+            <input type="range" min="1" max="100" value="50" class="slider" id="rangeSpeed" oninput="Graphics.startAnimation(this.value)">
         </div>
 
         
@@ -25,4 +27,5 @@
 
         </canvas>
     </body>
+
 </html>
